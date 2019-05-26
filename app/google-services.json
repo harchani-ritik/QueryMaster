@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "475121870478",
+    "firebase_url": "https://querymaster-9570b.firebaseio.com",
+    "project_id": "querymaster-9570b",
+    "storage_bucket": "querymaster-9570b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475121870478:android:da9b48572e014de0",
+        "android_client_info": {
+          "package_name": "com.example.android.querymaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475121870478-6o9to3f6ll31p8fhvr1sggucbbh4m8vb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.querymaster",
+            "certificate_hash": "453162e4985cb0d6921d98cc064f2f610d500f73"
+          }
+        },
+        {
+          "client_id": "475121870478-2h16nrkbg55i3khmamabulelivgb423h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ0uzV7V75rBbp-XYGQELk7w_BBcvn3nA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475121870478-2h16nrkbg55i3khmamabulelivgb423h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
