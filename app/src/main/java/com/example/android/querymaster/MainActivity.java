@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     public static final int RC_SIGN_IN = 1;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     TextView myText;
     private String mUsername;
@@ -57,9 +64,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        //myText.setText("Hello "+mUsername+"!\n"+"Welcome to Query Master");
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mRecyclerView.setAdapter(mAdapter);
     }
-
+    private ArrayList<QueryObject> getDataSet() {
+        ArrayList results = new ArrayList<QueryObject>();
+        for (int index = 0; index < 20; index++) {
+            String query="Some Query "+index;
+            QueryObject obj = new QueryObject(query);
+            results.add(index, obj);
+        }
+        return results;
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
