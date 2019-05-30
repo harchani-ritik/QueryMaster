@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    TextView myText;
+    private TextView myText;
     private String mUsername;
     private SearchView searchView;
     private Button submitQueryButton;
@@ -92,27 +93,25 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new MyRecyclerViewAdapter(queryObjectArrayList);
+        mRecyclerView.setAdapter(mAdapter);
 
         queryEditText.addTextChangedListener(new TextWatcher() {
-                                                 @Override
-                                                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                                 }
-
-                                                 @Override
-                                                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                                     if (charSequence.toString().trim().length() > 0) {
-                                                         submitQueryButton.setEnabled(true);
-                                                     } else {
-                                                         submitQueryButton.setEnabled(false);
-                                                     }
-                                                 }
-
-                                                 @Override
-                                                 public void afterTextChanged(Editable s) {
-
-                                                 }
-
-                                             });
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().trim().length() > 0) {
+                    submitQueryButton.setEnabled(true);
+                } else {
+                    submitQueryButton.setEnabled(false);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         submitQueryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,17 +128,6 @@ public class MainActivity extends AppCompatActivity {
         //to implement searching here
 
     }
-    /*private ArrayList<QueryObject> getDataSet()
-    {
-        ArrayList results = new ArrayList<QueryObject>();
-        for (int index = 0; index < 20; index++)
-        {
-            String query="Some Query "+index;
-            QueryObject obj = new QueryObject(query);
-            results.add(index, obj);
-        }
-        return results;
-    }*/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -154,11 +142,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
+        ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter.MyClickListener()
+        {
+            @Override
+            public void onItemClick(int position, View v) {
+                Log.i("MainActivity", " Clicked on Item " + position);
+            }
+        });
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
+
     @Override
     protected void onPause() {
         super.onPause();

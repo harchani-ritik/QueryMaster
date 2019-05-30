@@ -29,16 +29,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 //MyRecyclerView Adapter is a custom adapter for QueryObjects
-public class MyRecyclerViewAdapter extends RecyclerView
-        .Adapter<MyRecyclerViewAdapter
-        .QueryObjectHolder> {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.QueryObjectHolder> {
     private static String LOG_TAG = "MyRecyclerViewAdapter";
-    private ArrayList<QueryObject> mDataset;
+    private ArrayList<QueryObject> queryObjectArrayList;
     private static MyClickListener myClickListener;
 
-    public static class QueryObjectHolder extends RecyclerView.ViewHolder
-            implements View
-            .OnClickListener {
+    public static class QueryObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
         TextView label;
         TextView dateTime;
 
@@ -62,37 +59,34 @@ public class MyRecyclerViewAdapter extends RecyclerView
     }
 
     public MyRecyclerViewAdapter(ArrayList<QueryObject> myDataset) {
-        mDataset = myDataset;
+        queryObjectArrayList = myDataset;
     }
 
     @Override
-    public QueryObjectHolder onCreateViewHolder(ViewGroup parent,
-                                               int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_view_row, parent, false);
-
+    public QueryObjectHolder onCreateViewHolder(ViewGroup parent,int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_row, parent, false);
         QueryObjectHolder dataObjectHolder = new QueryObjectHolder(view);
         return dataObjectHolder;
     }
 
     @Override
     public void onBindViewHolder(QueryObjectHolder holder, int position) {
-        holder.label.setText(mDataset.get(position).getmQuery());
-        holder.dateTime.setText(mDataset.get(position).getmAnswer());
+        holder.label.setText(queryObjectArrayList.get(position).getmQuery());
+        holder.dateTime.setText(queryObjectArrayList.get(position).getmAnswer());
     }
 
     public void addItem(QueryObject dataObj, int index) {
-        mDataset.add(index, dataObj);
+        queryObjectArrayList.add(index, dataObj);
         notifyItemInserted(index);
     }
 
     public void deleteItem(int index) {
-        mDataset.remove(index);
+        queryObjectArrayList.remove(index);
         notifyItemRemoved(index);
     }
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return queryObjectArrayList.size();
     }
 
     public interface MyClickListener {
