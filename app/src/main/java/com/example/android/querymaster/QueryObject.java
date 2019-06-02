@@ -1,8 +1,12 @@
+
 package com.example.android.querymaster;
 
 public class QueryObject {
     private String mQuery;
-    private String mAnswer="ANSWER";
+    private String mAnswer="No Answer Till Now";
+
+    public QueryObject() {
+    }
 
     public QueryObject(String mQuery) {
         this.mQuery = mQuery;
