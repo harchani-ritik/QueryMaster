@@ -29,18 +29,20 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
     TextView myText;
     private String mUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         myText=(TextView)findViewById(R.id.displayTextView);
         mUsername = ANONYMOUS;
         mFirebaseAuth=FirebaseAuth.getInstance();
-
+        final Intent intent= new Intent(MainActivity.this,com.example.android.querymaster.Answering_Activity.class);
+        //going in the answering activity, delete this!!
+        //setting up intent to take to answering activity, delete this!!
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     onSignedInInitialize(user.getDisplayName());
                 } else {
                     // User is signed out
-                    onSignedOutCleanup();
+                    /*onSignedOutCleanup();
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
@@ -60,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                                             new AuthUI.IdpConfig.EmailBuilder().build(),
                                             new AuthUI.IdpConfig.GoogleBuilder().build()))
                                     .build(),
-                            RC_SIGN_IN);
+                            RC_SIGN_IN);*/
+                    startActivity(intent);
                 }
             }
         };
