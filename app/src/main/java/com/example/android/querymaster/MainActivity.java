@@ -48,7 +48,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+
     private TextView myText;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private String mUsername;
     private SearchView searchView;
     private Button submitQueryButton;
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -65,8 +71,13 @@ public class MainActivity extends AppCompatActivity {
         queryEditText=(EditText)findViewById(R.id.query_edit_text);
         mUsername = ANONYMOUS;
         mFirebaseAuth=FirebaseAuth.getInstance();
+
         mFirebaseDatabase=FirebaseDatabase.getInstance();
         mMessagesDatabaseReference=mFirebaseDatabase.getReference().child("queries");
+
+        //final Intent intent= new Intent(MainActivity.this,com.example.android.querymaster.Answering_Activity.class);
+        //going in the answering activity, delete this!!
+        //setting up intent to take to answering activity, delete this!!
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -77,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     onSignedInInitialize(user.getDisplayName());
                 } else {
                     // User is signed out
-                    onSignedOutCleanup();
+                    /*onSignedOutCleanup();
                     startActivityForResult(
 
                             AuthUI.getInstance()
@@ -88,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
                                             new AuthUI.IdpConfig.EmailBuilder().build(),
                                             new AuthUI.IdpConfig.GoogleBuilder().build()))
                                     .build(),
-                            RC_SIGN_IN);
+                            RC_SIGN_IN);*/
+                    startActivity(intent);
                 }
             }
         };
@@ -96,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
         mAdapter = new MyRecyclerViewAdapter(queryObjectArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -129,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
         searchView = findViewById(R.id.query_search_bar);
         //to implement searching here
-
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

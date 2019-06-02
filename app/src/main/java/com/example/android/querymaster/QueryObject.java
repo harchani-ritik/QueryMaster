@@ -1,3 +1,4 @@
+
 package com.example.android.querymaster;
 
 public class QueryObject {

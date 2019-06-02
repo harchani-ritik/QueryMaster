@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
 //MyRecyclerView Adapter is a custom adapter for QueryObjects
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.QueryObjectHolder> {
     private static String LOG_TAG = "MyRecyclerViewAdapter";
@@ -41,7 +42,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         public QueryObjectHolder(View itemView) {
             super(itemView);
-            
             label = (TextView) itemView.findViewById(R.id.textView);
             dateTime = (TextView) itemView.findViewById(R.id.textView2);
             Log.i(LOG_TAG, "Adding Listener");
@@ -71,6 +71,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(QueryObjectHolder holder, int position) {
+
         holder.label.setText(queryObjectArrayList.get(position).getmQuery());
         holder.dateTime.setText(queryObjectArrayList.get(position).getmAnswer());
     }
@@ -81,6 +82,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     public void deleteItem(int index) {
+
         queryObjectArrayList.remove(index);
         notifyItemRemoved(index);
     }
