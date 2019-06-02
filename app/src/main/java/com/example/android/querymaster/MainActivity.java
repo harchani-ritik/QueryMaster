@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String ANONYMOUS = "Anonymous";
     public static final int RC_SIGN_IN = 1;
+    public boolean EXPERT_LOGIN;
+
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseDatabase mFirebaseDatabase;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private Button submitQueryButton;
     private EditText queryEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,5 +215,10 @@ public class MainActivity extends AppCompatActivity {
             mMessagesDatabaseReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
+    }
+    private void updateUserDatabase(FirebaseUser user)
+    {
+        User mUser = new User(user.getDisplayName(), user.getEmail(), false);
+        mFirebaseDatabase.getReference("users").push().setValue(mUser);
     }
 }
