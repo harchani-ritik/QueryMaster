@@ -47,12 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-
     private TextView myText;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     private String mUsername;
     private SearchView searchView;
@@ -88,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     onSignedInInitialize(user.getDisplayName());
                 } else {
                     // User is signed out
-                    /*onSignedOutCleanup();
+                    onSignedOutCleanup();
                     startActivityForResult(
 
                             AuthUI.getInstance()
@@ -99,8 +94,7 @@ public class MainActivity extends AppCompatActivity {
                                             new AuthUI.IdpConfig.EmailBuilder().build(),
                                             new AuthUI.IdpConfig.GoogleBuilder().build()))
                                     .build(),
-                            RC_SIGN_IN);*/
-                    startActivity(intent);
+                            RC_SIGN_IN);
                 }
             }
         };

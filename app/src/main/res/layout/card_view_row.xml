@@ -36,6 +36,14 @@
                 android:layout_marginTop="10dp"
                 tools:text="Answer"/>
 
+            <TextView
+                android:id="@+id/answer_query"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="Answer Query" />
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
