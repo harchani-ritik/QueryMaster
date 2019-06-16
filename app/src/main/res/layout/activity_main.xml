@@ -1,67 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/items_relative_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/display_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Welcome to QueryMaster!"
-            android:textStyle="bold"/>
-
-        <SearchView
-            android:id="@+id/query_search_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/display_text_view"
-            android:queryBackground="@color/tan_background"
-            android:queryHint="Search Query">
-        </SearchView>
-
-        <EditText
-            android:id="@+id/query_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/query_search_bar"
-            android:hint="Ask your Query Here"
-            android:text=""/>
-
-        <Button
-            android:id="@+id/submit_query_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/query_edit_text"
-            android:layout_centerHorizontal="true"
-            android:enabled="false"
-            android:background="@color/colorTheme"
-            android:textColor="@color/colorTitle"
-            android:text="Submit"
-            />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/card_relative_view"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/display_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/items_relative_view">
+        android:layout_centerHorizontal="true"
+        android:text="Welcome to QueryMaster!"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/query_search_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"/>
-    </RelativeLayout>
+    <SearchView
+        android:id="@+id/query_search_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/display_text_view"
+        android:queryBackground="@color/tan_background"
+        android:queryHint="Search Query"
+        app:layout_constraintBottom_toTopOf="@+id/query_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/display_text_view"></SearchView>
+
+    <EditText
+        android:id="@+id/query_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/query_search_bar"
+        android:hint="Ask your Query Here"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/query_search_bar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit_query_button" />
+
+    <Button
+        android:id="@+id/submit_query_button"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/query_edit_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="64dp"
+        android:background="@color/colorTheme"
+        android:enabled="false"
+        android:text="Submit"
+        android:textColor="@color/colorTitle"
+        app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
+        app:layout_constraintEnd_toEndOf="@+id/query_search_bar"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
