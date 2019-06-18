@@ -1,25 +1,6 @@
-/*
- * Copyright (c) 2017. Truiton (http://www.truiton.com/).
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Contributors:
- * Mohit Gupt (https://github.com/mohitgupt)
- *
- */
-
 package com.example.android.querymaster;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,20 +11,24 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 //MyRecyclerView Adapter is a custom adapter for QueryObjects
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.QueryObjectHolder> {
+    public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.QueryObjectHolder> {
     private static String LOG_TAG = "MyRecyclerViewAdapter";
     private ArrayList<QueryObject> queryObjectArrayList;
     private static MyClickListener myClickListener;
 
-    public static class QueryObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public static class QueryObjectHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener
     {
-        TextView label;
+        TextView query;
         TextView dateTime;
+        TextView answerQuery;
+
 
         public QueryObjectHolder(View itemView) {
             super(itemView);
-            label = (TextView) itemView.findViewById(R.id.textView);
+            query = (TextView) itemView.findViewById(R.id.textView);
             dateTime = (TextView) itemView.findViewById(R.id.textView2);
+            answerQuery=(TextView)itemView.findViewById(R.id.answer_query);
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }
@@ -70,10 +55,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     @Override
-    public void onBindViewHolder(QueryObjectHolder holder, int position) {
+    public void onBindViewHolder(final QueryObjectHolder holder, final int position) {
 
-        holder.label.setText(queryObjectArrayList.get(position).getmQuery());
-        holder.dateTime.setText(queryObjectArrayList.get(position).getmAnswer());
+        holder.query.setText(queryObjectArrayList.get(position).getmQuery());
+        //holder.dateTime.setText(queryObjectArrayList.get(position).getmAnswers().get(0));
+        holder.answerQuery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(v.getContext(),Answering_Activity.class);
+                myIntent.putExtra("question",queryObjectArrayList.get(position).getmQuery());
+                myIntent.putExtra("answer_array_list",queryObjectArrayList.get(position).getmAnswers());
+                v.getContext().startActivity(myIntent);
+                holder.answerQuery.setText("Redirecting to Answering Activity");
+            }
+        });
     }
 
     public void addItem(QueryObject dataObj, int index) {

@@ -1,23 +1,28 @@
 
 package com.example.android.querymaster;
 
+import java.util.ArrayList;
+
 public class QueryObject {
     private String mQuery;
-    private String mAnswer="No Answer Till Now";
-
+    private ArrayList<String> mAnswers;
     public QueryObject() {
     }
 
     public QueryObject(String mQuery) {
         this.mQuery = mQuery;
+        mAnswers.set(0,"No Answer Till Now");
     }
-    public void setmAnswer(String mAnswer) {
-        this.mAnswer = mAnswer;
+
+    public void setmAnswers(String answer) {
+        mAnswers.add(answer);
     }
+
     public String getmQuery() {
         return mQuery;
     }
-    public String getmAnswer() {
-        return mAnswer;
+
+    public ArrayList<String> getmAnswers() {
+        return mAnswers;
     }
 }

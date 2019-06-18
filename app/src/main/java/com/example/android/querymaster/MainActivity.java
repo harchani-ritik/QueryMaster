@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     submitQueryButton.setEnabled(true);
                 } else {
                     submitQueryButton.setEnabled(false);
+
                 }
             }
             @Override
@@ -182,12 +183,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //Use to inflate the SignOut Options menu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //The function is used to implement SignOut Option
         switch (item.getItemId()) {
             case R.id.sign_out_menu:
                 AuthUI.getInstance().signOut(this);
@@ -223,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void updateUserDatabase(FirebaseUser user)
-    {
+    {//The function is used to store the user's database
         User mUser = new User(user.getDisplayName(), user.getEmail(), false);
         mFirebaseDatabase.getReference("users").push().setValue(mUser);
     }
