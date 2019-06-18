@@ -33,7 +33,6 @@ public class Answering_Activity extends AppCompatActivity {
         EditText answerEditText=findViewById(R.id.answerEditText);
         Button submitButton=findViewById(R.id.submitButton);
         Button uploadimageButton=findViewById(R.id.uploadimageButton);
-        questionTextView.setText("This is question space");
 
         getIncomingIntent();
 

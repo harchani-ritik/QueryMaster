@@ -1,51 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Answering_Activity">
+
     <TextView
         android:id="@+id/questionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_width="411dp"
+        android:layout_height="85dp"
+        android:layout_marginBottom="10dp"
+        android:text="This is Question Space"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/answerEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitButton" />
 
     <EditText
         android:id="@+id/answerEditText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="This is answering space"
-        android:inputType="textPersonName" />
+        android:gravity="start|top"
+        android:hint="This is Answering Space"
+        android:inputType="textMultiLine"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/uploadimageButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionTextView" />
 
     <ImageView
         android:id="@+id/answerImageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:src="@color/colorAccent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".25"
-        android:orientation="horizontal">
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="167dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="9dp"
+        android:text="Submit Answer"
+        app:layout_constraintBottom_toTopOf="@+id/questionTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/uploadimageButton"
-            android:layout_width="197dp"
-            android:layout_height="wrap_content"
-            android:text="Upload Image" />
+    <Button
+        android:id="@+id/uploadimageButton"
+        android:layout_width="142dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="4dp"
+        android:text="Upload Image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/answerEditText" />
 
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="194dp"
-            android:layout_height="wrap_content"
-            android:text="Submit" />
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
