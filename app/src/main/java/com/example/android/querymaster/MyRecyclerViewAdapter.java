@@ -68,6 +68,7 @@ import java.util.ArrayList;
                 Intent myIntent = new Intent(v.getContext(),Answering_Activity.class);
                 myIntent.putExtra("question",queryObjectArrayList.get(position).getmQuery());
                 myIntent.putStringArrayListExtra("answersList",queryObjectArrayList.get(position).getmAnswers());
+                myIntent.putExtra("objPostion",position);
                 v.getContext().startActivity(myIntent);
             }
         });

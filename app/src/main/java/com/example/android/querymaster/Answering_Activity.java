@@ -25,6 +25,7 @@ public class Answering_Activity extends AppCompatActivity {
     private TextView answerEditText;
     private ArrayList<String> answerArrayList;
     private String questionName;
+    private int ObjPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +42,15 @@ public class Answering_Activity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Submit button clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Submitting Answer",Toast.LENGTH_SHORT).show();
                 String answer=answerEditText.getText().toString();
                 answerEditText.setText("");
                 answerArrayList.add(answer);
                 //Now this answer has to be added to ArrayList of Answers of that particular query
+                Intent myIntent=new Intent(v.getContext(),MainActivity.class);
+                myIntent.putExtra("objPostion",ObjPosition);
+                myIntent.putStringArrayListExtra("answersList",answerArrayList);
+                v.getContext().startActivity(myIntent);
             }
         });
 
@@ -77,13 +82,13 @@ public class Answering_Activity extends AppCompatActivity {
     private void getIncomingIntent()
     {
         Log.d(TAG,"Getting Incoming Intent");
-        if(getIntent().hasExtra("question")&&getIntent().hasExtra("object_postion"));
+        if(getIntent().hasExtra("question")&&getIntent().hasExtra("answersList")&&getIntent().hasExtra("objPosition"));
         {
             questionName=getIntent().getStringExtra("question");
             answerArrayList=getIntent().getStringArrayListExtra("answersList");
+            ObjPosition=getIntent().getIntExtra("objPosition",-1);
             setQuestionName();
         }
-
     }
 
     private void setQuestionName()

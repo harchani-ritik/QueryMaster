@@ -56,9 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getIncomingIntent();
 
         queryObjectArrayList=new ArrayList<QueryObject>();
         myText=(TextView)findViewById(R.id.display_text_view);
@@ -69,10 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebaseDatabase=FirebaseDatabase.getInstance();
         mMessagesDatabaseReference=mFirebaseDatabase.getReference().child("queries");
-
-        //final Intent intent= new Intent(MainActivity.this,com.example.android.querymaster.Answering_Activity.class);
-        //going in the answering activity, delete this!!
-        //setting up intent to take to answering activity, delete this!!
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -211,7 +208,8 @@ public class MainActivity extends AppCompatActivity {
                     mRecyclerView.setAdapter(mAdapter);
                 }
 
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
                 public void onChildRemoved(DataSnapshot dataSnapshot) {}
                 public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
                 public void onCancelled(DatabaseError databaseError) {}
@@ -231,4 +229,18 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseDatabase.getReference("users").push().setValue(mUser);
     }
 
+    public void getIncomingIntent()
+    {
+        int ObjPosition; ArrayList<String>answerArrayList;
+        Log.d("MainActivity","Getting Incoming Intent");
+        if(getIntent().hasExtra("objPosition")&&getIntent().hasExtra("answersList"));
+        {
+            answerArrayList=getIntent().getStringArrayListExtra("answersList");
+            ObjPosition=getIntent().getIntExtra("objPosition",-1);
+        }
+        if(ObjPosition!=-1)
+        {
+            queryObjectArrayList.get(ObjPosition).setmAnswers(answerArrayList);
+        }
+    }
 }
