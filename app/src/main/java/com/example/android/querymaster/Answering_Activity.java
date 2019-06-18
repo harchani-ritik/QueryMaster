@@ -22,6 +22,7 @@ public class Answering_Activity extends AppCompatActivity {
 
     public static final String TAG="Answering_Activity";
     private TextView questionTextView;
+    private TextView answerEditText;
     private ArrayList<String> answerArrayList;
     private String questionName;
 
@@ -30,18 +31,21 @@ public class Answering_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answering_);
         questionTextView=findViewById(R.id.questionTextView);//fill in this using intent from main activity
-        EditText answerEditText=findViewById(R.id.answerEditText);
+        answerEditText=findViewById(R.id.answerEditText);
         Button submitButton=findViewById(R.id.submitButton);
         Button uploadimageButton=findViewById(R.id.uploadimageButton);
+
 
         getIncomingIntent();
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //use an intent to send text and image to whichever activity you want!
-                Toast toast= Toast.makeText(getApplicationContext(),"Submit button clicked",Toast.LENGTH_SHORT);
-                toast.show();
+                Toast.makeText(getApplicationContext(),"Submit button clicked",Toast.LENGTH_SHORT).show();
+                String answer=answerEditText.getText().toString();
+                answerEditText.setText("");
+                answerArrayList.add(answer);
+                //Now this answer has to be added to ArrayList of Answers of that particular query
             }
         });
 
@@ -73,10 +77,10 @@ public class Answering_Activity extends AppCompatActivity {
     private void getIncomingIntent()
     {
         Log.d(TAG,"Getting Incoming Intent");
-        if(getIntent().hasExtra("question")&&getIntent().hasExtra("answer_array_list"));
+        if(getIntent().hasExtra("question")&&getIntent().hasExtra("object_postion"));
         {
             questionName=getIntent().getStringExtra("question");
-            answerArrayList=getIntent().getStringArrayListExtra("answer_array_list");
+            answerArrayList=getIntent().getStringArrayListExtra("answersList");
             setQuestionName();
         }
 

@@ -230,4 +230,5 @@ public class MainActivity extends AppCompatActivity {
         User mUser = new User(user.getDisplayName(), user.getEmail(), false);
         mFirebaseDatabase.getReference("users").push().setValue(mUser);
     }
+
 }
