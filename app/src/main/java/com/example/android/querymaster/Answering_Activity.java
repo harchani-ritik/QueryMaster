@@ -48,7 +48,7 @@ public class Answering_Activity extends AppCompatActivity {
                 answerArrayList.add(answer);
                 //Now this answer has to be added to ArrayList of Answers of that particular query
                 Intent myIntent=new Intent(v.getContext(),MainActivity.class);
-                myIntent.putExtra("objPostion",ObjPosition);
+                myIntent.putExtra("objPosition",ObjPosition);
                 myIntent.putStringArrayListExtra("answersList",answerArrayList);
                 v.getContext().startActivity(myIntent);
             }

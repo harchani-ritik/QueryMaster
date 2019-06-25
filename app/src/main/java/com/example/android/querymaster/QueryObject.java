@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class QueryObject {
   
+    private String mKey;
     private String mQuery;
     private ArrayList<String> mAnswers=new ArrayList<>();
     private int mNumberOfAnswers;
     private String mTime;
-  
+
     public QueryObject() {//default constructor required for firebase
     }
 
@@ -30,6 +31,10 @@ public class QueryObject {
         return mNumberOfAnswers;
     }
 
+    public String getmKey() {
+        return mKey;
+    }
+
     public void setmAnswers(ArrayList<String> mAnswers) {
         this.mAnswers = mAnswers;
         mNumberOfAnswers=this.mAnswers.size();
@@ -42,4 +47,9 @@ public class QueryObject {
     public void setmTime(String mTime) {
         this.mTime = mTime;
     }
+
+    public void setmKey(String mKey) {
+        this.mKey = mKey;
+    }
+
 }

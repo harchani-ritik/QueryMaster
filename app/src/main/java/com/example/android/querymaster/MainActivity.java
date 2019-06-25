@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        getIncomingIntent();
+        //getIncomingIntent();
 
         queryObjectArrayList = new ArrayList<QueryObject>();
         myText = (TextView) findViewById(R.id.display_text_view);
@@ -143,12 +143,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         submitQueryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Query Submitted", Toast.LENGTH_SHORT).show();
-                String query = queryEditText.getText().toString();
-                QueryObject queryObject = new QueryObject(query);
+                Toast.makeText(MainActivity.this,"Query Submitted",Toast.LENGTH_SHORT).show();
+                String query=queryEditText.getText().toString();
+                QueryObject queryObject = new QueryObject(query);//New object created
                 Date currentTime = Calendar.getInstance().getTime();
                 queryObject.setmTime(currentTime.toString());
-                mMessagesDatabaseReference.push().setValue(queryObject);
+
+                String key=mMessagesDatabaseReference.push().getKey();
+                queryObject.setmKey(key);
+
+                mMessagesDatabaseReference.child(key).setValue(queryObject);
                 queryEditText.setText("");
             }
         });
@@ -269,11 +273,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("MainActivity", "Getting Incoming Intent");
         if (getIntent().hasExtra("objPosition") && getIntent().hasExtra("answersList")) ;
         {
-            answerArrayList = getIntent().getStringArrayListExtra("answersList");
-            ObjPosition = getIntent().getIntExtra("objPosition", -1);
+            answerArrayList=getIntent().getStringArrayListExtra("answersList");
+            ObjPosition=getIntent().getIntExtra("objPosition",-1);
+            Toast.makeText(MainActivity.this,"Obj Pos = "+ObjPosition,Toast.LENGTH_SHORT).show();
         }
-        if (ObjPosition != -1) {
-            queryObjectArrayList.get(ObjPosition).setmAnswers(answerArrayList);
+        if(ObjPosition!=-1) {
+            Toast.makeText(MainActivity.this,"1queryObjectArrayListSize="+queryObjectArrayList.size(),Toast.LENGTH_SHORT).show();
+            //queryObjectArrayList.get(ObjPosition).setmAnswers(answerArrayList);
+            Toast.makeText(MainActivity.this,"2queryObjectArrayListSize="+queryObjectArrayList.size(),Toast.LENGTH_SHORT).show();
         }
     }
 
