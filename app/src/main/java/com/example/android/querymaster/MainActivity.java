@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getIncomingIntent();
+        //getIncomingIntent();
 
         queryObjectArrayList=new ArrayList<QueryObject>();
         myText=(TextView)findViewById(R.id.display_text_view);
@@ -128,10 +128,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this,"Query Submitted",Toast.LENGTH_SHORT).show();
                 String query=queryEditText.getText().toString();
-                QueryObject queryObject = new QueryObject(query);
+                QueryObject queryObject = new QueryObject(query);//New object created
+
                 Date currentTime = Calendar.getInstance().getTime();
                 queryObject.setmTime(currentTime.toString());
-                mMessagesDatabaseReference.push().setValue(queryObject);
+
+                String key=mMessagesDatabaseReference.push().getKey();
+                queryObject.setmKey(key);
+
+                mMessagesDatabaseReference.child(key).setValue(queryObject);
                 queryEditText.setText("");
             }
         });
@@ -243,10 +248,12 @@ public class MainActivity extends AppCompatActivity {
         {
             answerArrayList=getIntent().getStringArrayListExtra("answersList");
             ObjPosition=getIntent().getIntExtra("objPosition",-1);
+            Toast.makeText(MainActivity.this,"Obj Pos = "+ObjPosition,Toast.LENGTH_SHORT).show();
         }
-        if(ObjPosition!=-1)
-        {
-            queryObjectArrayList.get(ObjPosition).setmAnswers(answerArrayList);
+        if(ObjPosition!=-1) {
+            Toast.makeText(MainActivity.this,"1queryObjectArrayListSize="+queryObjectArrayList.size(),Toast.LENGTH_SHORT).show();
+            //queryObjectArrayList.get(ObjPosition).setmAnswers(answerArrayList);
+            Toast.makeText(MainActivity.this,"2queryObjectArrayListSize="+queryObjectArrayList.size(),Toast.LENGTH_SHORT).show();
         }
     }
 }
