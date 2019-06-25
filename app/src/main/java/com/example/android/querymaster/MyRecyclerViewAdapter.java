@@ -61,7 +61,7 @@ import java.util.ArrayList;
     public void onBindViewHolder(QueryObjectHolder holder, final int position) {
 
         holder.query.setText(queryObjectArrayList.get(position).getmQuery());
-        String label=Integer.toString(queryObjectArrayList.get(position).getNumberOfAnswers())+" Answers";
+        String label=Integer.toString(queryObjectArrayList.get(position).getmNumberOfAnswers())+" Answers";
         holder.answerlabel.setText(label);
         holder.timelabel.setText(queryObjectArrayList.get(position).getmTime());
         holder.answerQuery.setOnClickListener(new View.OnClickListener() {
