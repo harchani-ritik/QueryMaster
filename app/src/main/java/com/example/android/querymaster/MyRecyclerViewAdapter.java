@@ -23,6 +23,7 @@ import java.util.ArrayList;
         TextView query;
         TextView answerlabel;
         TextView answerQuery;
+        TextView timelabel;
 
 
         public QueryObjectHolder(View itemView) {
@@ -30,6 +31,7 @@ import java.util.ArrayList;
             query = (TextView) itemView.findViewById(R.id.textView);
             answerlabel = (TextView) itemView.findViewById(R.id.textView2);
             answerQuery=(TextView)itemView.findViewById(R.id.answer_query);
+            timelabel=itemView.findViewById(R.id.textView4);
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }
@@ -61,6 +63,7 @@ import java.util.ArrayList;
         holder.query.setText(queryObjectArrayList.get(position).getmQuery());
         String label=Integer.toString(queryObjectArrayList.get(position).getNumberOfAnswers())+" Answers";
         holder.answerlabel.setText(label);
+        holder.timelabel.setText(queryObjectArrayList.get(position).getmTime());
         holder.answerQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -35,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -144,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(MainActivity.this, "Query Submitted", Toast.LENGTH_SHORT).show();
                 String query = queryEditText.getText().toString();
                 QueryObject queryObject = new QueryObject(query);
+                Date currentTime = Calendar.getInstance().getTime();
+                queryObject.setmTime(currentTime.toString());
                 mMessagesDatabaseReference.push().setValue(queryObject);
                 queryEditText.setText("");
             }
@@ -219,6 +223,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void attachDatabaseReadListener() {
         Toast.makeText(MainActivity.this, "Loading Queries", Toast.LENGTH_SHORT).show();
+
+
         if (mChildEventListener == null) {
             mChildEventListener = new ChildEventListener() {
                 @Override

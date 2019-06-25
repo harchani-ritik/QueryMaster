@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class QueryObject {
     private String mQuery;
+    private String mTime;
     public ArrayList<String> mAnswers=new ArrayList<>();
 
     public QueryObject() {
@@ -31,4 +32,11 @@ public class QueryObject {
         return mAnswers.size();
     }
 
+    public String getmTime() {
+        return mTime;
+    }
+
+    public void setmTime(String mTime) {
+        this.mTime = mTime;
+    }
 }
