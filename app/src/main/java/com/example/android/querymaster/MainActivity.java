@@ -2,10 +2,15 @@ package com.example.android.querymaster;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -33,7 +38,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String ANONYMOUS = "Anonymous";
     public static final int RC_SIGN_IN = 1;
@@ -55,23 +60,33 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private Button submitQueryButton;
     private EditText queryEditText;
+    private DrawerLayout mDrawerLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationview = findViewById(R.id.nav_view);
+        navigationview.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
         //getIncomingIntent();
 
-        queryObjectArrayList=new ArrayList<QueryObject>();
-        myText=(TextView)findViewById(R.id.display_text_view);
-        submitQueryButton=(Button)findViewById(R.id.submit_query_button);
-        queryEditText=(EditText)findViewById(R.id.query_edit_text);
+        queryObjectArrayList = new ArrayList<QueryObject>();
+        myText = (TextView) findViewById(R.id.display_text_view);
+        submitQueryButton = (Button) findViewById(R.id.submit_query_button);
+        queryEditText = (EditText) findViewById(R.id.query_edit_text);
         mUsername = ANONYMOUS;
-        mFirebaseAuth=FirebaseAuth.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
-        mFirebaseDatabase=FirebaseDatabase.getInstance();
-        mMessagesDatabaseReference=mFirebaseDatabase.getReference().child("queries");
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("queries");
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -109,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().trim().length() > 0) {
@@ -118,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -129,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"Query Submitted",Toast.LENGTH_SHORT).show();
                 String query=queryEditText.getText().toString();
                 QueryObject queryObject = new QueryObject(query);//New object created
-
                 Date currentTime = Calendar.getInstance().getTime();
                 queryObject.setmTime(currentTime.toString());
 
@@ -144,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.query_search_bar);
         //to implement searching here
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -162,8 +179,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter.MyClickListener()
-        {
+        ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter.MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 Log.i("MainActivity", " Clicked on Item " + position);
@@ -178,10 +194,12 @@ public class MainActivity extends AppCompatActivity {
         if (mAuthStateListener != null)
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
     }
+
     private void onSignedInInitialize(String username) {
         mUsername = username;
         attachDatabaseReadListener();
     }
+
     private void onSignedOutCleanup() {
         mUsername = ANONYMOUS;
         detachDatabaseReadListener();
@@ -194,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //The function is used to implement SignOut Option
@@ -205,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     private void attachDatabaseReadListener() {
         Toast.makeText(MainActivity.this, "Loading Queries", Toast.LENGTH_SHORT).show();
 
@@ -221,30 +241,37 @@ public class MainActivity extends AppCompatActivity {
 
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 }
-                public void onChildRemoved(DataSnapshot dataSnapshot) {}
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-                public void onCancelled(DatabaseError databaseError) {}
+
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
+
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
+
+                public void onCancelled(DatabaseError databaseError) {
+                }
             };
             mMessagesDatabaseReference.addChildEventListener(mChildEventListener);
         }
     }
+
     private void detachDatabaseReadListener() {
         if (mChildEventListener != null) {
             mMessagesDatabaseReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
     }
-    private void updateUserDatabase(FirebaseUser user)
-    {//The function is used to store the user's database
+
+    private void updateUserDatabase(FirebaseUser user) {//The function is used to store the user's database
         User mUser = new User(user.getDisplayName(), user.getEmail(), false);
         mFirebaseDatabase.getReference("users").push().setValue(mUser);
     }
 
-    public void getIncomingIntent()
-    {
-        int ObjPosition; ArrayList<String>answerArrayList;
-        Log.d("MainActivity","Getting Incoming Intent");
-        if(getIntent().hasExtra("objPosition")&&getIntent().hasExtra("answersList"));
+    public void getIncomingIntent() {
+        int ObjPosition;
+        ArrayList<String> answerArrayList;
+        Log.d("MainActivity", "Getting Incoming Intent");
+        if (getIntent().hasExtra("objPosition") && getIntent().hasExtra("answersList")) ;
         {
             answerArrayList=getIntent().getStringArrayListExtra("answersList");
             ObjPosition=getIntent().getIntExtra("objPosition",-1);
@@ -256,4 +283,34 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"2queryObjectArrayListSize="+queryObjectArrayList.size(),Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.user_profile: {
+                Toast.makeText(this, " User Profile clicked", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.home: {
+                Toast.makeText(this, " Home clicked", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.Suggestions: {
+                Toast.makeText(this, " Suggestions clicked", Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
+
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+    @Override
+    public void onBackPressed () {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        else
+            super.onBackPressed();
+    }
+
 }
+

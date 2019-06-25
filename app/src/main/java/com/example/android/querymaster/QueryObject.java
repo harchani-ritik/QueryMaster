@@ -3,6 +3,7 @@ package com.example.android.querymaster;
 import java.util.ArrayList;
 
 public class QueryObject {
+  
     private String mKey;
     private String mQuery;
     private ArrayList<String> mAnswers=new ArrayList<>();
@@ -42,7 +43,7 @@ public class QueryObject {
     public String getmTime() {
         return mTime;
     }
-
+  
     public void setmTime(String mTime) {
         this.mTime = mTime;
     }
