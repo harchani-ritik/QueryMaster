@@ -77,12 +77,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        //getIncomingIntent();
+        getIncomingIntent();
 
-        queryObjectArrayList = new ArrayList<QueryObject>();
-        myText = (TextView) findViewById(R.id.display_text_view);
-        submitQueryButton = (Button) findViewById(R.id.submit_query_button);
-        queryEditText = (EditText) findViewById(R.id.query_edit_text);
+        queryObjectArrayList = new ArrayList<>();
+        myText = findViewById(R.id.display_text_view);
+        submitQueryButton = findViewById(R.id.submit_query_button);
+        queryEditText = findViewById(R.id.query_edit_text);
         mUsername = ANONYMOUS;
         mFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -149,11 +149,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 QueryObject queryObject = new QueryObject(query);//New object created
                 Date currentTime = Calendar.getInstance().getTime();
                 queryObject.setmTime(currentTime.toString());
-
                 String key=mMessagesDatabaseReference.push().getKey();
                 queryObject.setmKey(key);
-
-                mMessagesDatabaseReference.child(key).setValue(queryObject);
+                if(key!=null)
+                    mMessagesDatabaseReference.child(key).setValue(queryObject);
                 queryEditText.setText("");
             }
         });
@@ -269,19 +268,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void getIncomingIntent() {
-        int ObjPosition;
+        int ObjPosition;String ObjKey;
         ArrayList<String> answerArrayList;
-        Log.d("MainActivity", "Getting Incoming Intent");
-        if (getIntent().hasExtra("objPosition") && getIntent().hasExtra("answersList")) ;
+        if (getIntent().hasExtra("objPosition") && getIntent().hasExtra("answersList") && getIntent().hasExtra("objKey")) ;
         {
             answerArrayList=getIntent().getStringArrayListExtra("answersList");
             ObjPosition=getIntent().getIntExtra("objPosition",-1);
-            Toast.makeText(MainActivity.this,"Obj Pos = "+ObjPosition,Toast.LENGTH_SHORT).show();
+            ObjKey=getIntent().getStringExtra("objKey");
+            //Toast.makeText(MainActivity.this,"Obj Pos = "+ObjPosition,Toast.LENGTH_SHORT).show();
         }
         if(ObjPosition!=-1) {
-            Toast.makeText(MainActivity.this,"1queryObjectArrayListSize="+queryObjectArrayList.size(),Toast.LENGTH_SHORT).show();
-            //queryObjectArrayList.get(ObjPosition).setmAnswers(answerArrayList);
-            Toast.makeText(MainActivity.this,"2queryObjectArrayListSize="+queryObjectArrayList.size(),Toast.LENGTH_SHORT).show();
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("queries");
+            mMessagesDatabaseReference.child(ObjKey).child("mAnswers").setValue(answerArrayList);
         }
     }
 

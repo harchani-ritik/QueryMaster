@@ -2,14 +2,12 @@ package com.example.android.querymaster;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.nfc.Tag;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +24,7 @@ public class Answering_Activity extends AppCompatActivity {
     private ArrayList<String> answerArrayList;
     private String questionName;
     private int ObjPosition;
+    private String ObjKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +49,7 @@ public class Answering_Activity extends AppCompatActivity {
                 Intent myIntent=new Intent(v.getContext(),MainActivity.class);
                 myIntent.putExtra("objPosition",ObjPosition);
                 myIntent.putStringArrayListExtra("answersList",answerArrayList);
+                myIntent.putExtra("objKey",ObjKey);
                 v.getContext().startActivity(myIntent);
             }
         });
@@ -87,6 +87,7 @@ public class Answering_Activity extends AppCompatActivity {
             questionName=getIntent().getStringExtra("question");
             answerArrayList=getIntent().getStringArrayListExtra("answersList");
             ObjPosition=getIntent().getIntExtra("objPosition",-1);
+            ObjKey=getIntent().getStringExtra("objKey");
             setQuestionName();
         }
     }
