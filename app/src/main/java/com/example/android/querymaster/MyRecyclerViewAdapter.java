@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -67,8 +66,7 @@ import java.util.ArrayList;
         holder.answerQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Opening Answering Activity", Toast.LENGTH_SHORT).show();
-                Intent myIntent = new Intent(v.getContext(),Answering_Activity.class);
+                Intent myIntent = new Intent(v.getContext(), AnsweringActivity.class);
                 myIntent.putExtra("question",queryObjectArrayList.get(position).getmQuery());
                 myIntent.putStringArrayListExtra("answersList",queryObjectArrayList.get(position).getmAnswers());
                 myIntent.putExtra("objPosition",position);

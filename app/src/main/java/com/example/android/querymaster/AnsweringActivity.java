@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,11 +16,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Answering_Activity extends AppCompatActivity {
+public class AnsweringActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    public static final String TAG="Answering_Activity";
+    public static final String TAG="AnsweringActivity";
     private TextView questionTextView;
     private TextView answerEditText;
     private ArrayList<String> answerArrayList;
@@ -66,7 +65,6 @@ public class Answering_Activity extends AppCompatActivity {
 
     private void getIncomingIntent()
     {
-        Log.d(TAG,"Getting Incoming Intent");
         if(getIntent().hasExtra("question")&&getIntent().hasExtra("answersList")&&getIntent().hasExtra("objPosition"));
         {
             questionName=getIntent().getStringExtra("question");

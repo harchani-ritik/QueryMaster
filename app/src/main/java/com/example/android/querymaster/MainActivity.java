@@ -49,8 +49,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessagesDatabaseReference;
+    private DatabaseReference mUserDatabaseReference;
     private ChildEventListener mChildEventListener;
     private ArrayList<QueryObject> queryObjectArrayList;
+    private ArrayList<User> userObjectArrayList=new ArrayList<>();
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         getIncomingIntent();
 
+        userObjectArrayList=new ArrayList<>();
         queryObjectArrayList = new ArrayList<>();
         myText = findViewById(R.id.display_text_view);
         submitQueryButton = findViewById(R.id.submit_query_button);
@@ -88,13 +91,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("queries");
+        mUserDatabaseReference=mFirebaseDatabase.getReference().child("users");
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 if (user != null) {
                     // User is signed in
+                    updateUserDatabase(user);
                     onSignedInInitialize(user.getDisplayName());
                 } else {
                     // User is signed out
@@ -113,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         };
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView = findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -197,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void onSignedInInitialize(String username) {
         mUsername = username;
+        myText.setText("Welcome "+mUsername+" to QueryMaster!");
         attachDatabaseReadListener();
     }
 
@@ -262,9 +269,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void updateUserDatabase(FirebaseUser user) {//The function is used to store the user's database
-        User mUser = new User(user.getDisplayName(), user.getEmail(), false);
-        mFirebaseDatabase.getReference("users").push().setValue(mUser);
+    private void updateUserDatabase(FirebaseUser user) {
+        String uid= user.getUid();
+        int flag=0;
+        for( User u : userObjectArrayList)
+            if(u.getUid().equals(uid))
+                flag=1;
+        if(flag==0) {
+            User newUser = new User(user.getDisplayName(), user.getEmail(), false,uid);
+            userObjectArrayList.add(newUser);
+            mUserDatabaseReference.child(user.getUid()).setValue(newUser);
+        }
+
     }
 
     public void getIncomingIntent() {
@@ -275,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             answerArrayList=getIntent().getStringArrayListExtra("answersList");
             ObjPosition=getIntent().getIntExtra("objPosition",-1);
             ObjKey=getIntent().getStringExtra("objKey");
-            //Toast.makeText(MainActivity.this,"Obj Pos = "+ObjPosition,Toast.LENGTH_SHORT).show();
         }
         if(ObjPosition!=-1) {
             mFirebaseDatabase = FirebaseDatabase.getInstance();
