@@ -91,17 +91,19 @@ public class AnsweringActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.post_menu:
-                Toast.makeText(getApplicationContext(),"Submitting Answer",Toast.LENGTH_SHORT).show();
-                String answer=answerEditText.getText().toString();
-                answerEditText.setText("");
-                answerArrayList.add(answer);
-                //Now this answer has to be added to ArrayList of Answers of that particular query
-                Intent myIntent=new Intent(this,MainActivity.class);
-                myIntent.putExtra("objPosition",ObjPosition);
-                myIntent.putStringArrayListExtra("answersList",answerArrayList);
-                myIntent.putExtra("objKey",ObjKey);
-                startActivity(myIntent);
-                return true;
+                if(!answerEditText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Submitting Answer", Toast.LENGTH_SHORT).show();
+                    String answer = answerEditText.getText().toString();
+                    answerEditText.setText("");
+                    answerArrayList.add(answer);
+                    //Now this answer has to be added to ArrayList of Answers of that particular query
+                    Intent myIntent = new Intent(this, MainActivity.class);
+                    myIntent.putExtra("objPosition", ObjPosition);
+                    myIntent.putStringArrayListExtra("answersList", answerArrayList);
+                    myIntent.putExtra("objKey", ObjKey);
+                    startActivity(myIntent);
+                    return true;
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }

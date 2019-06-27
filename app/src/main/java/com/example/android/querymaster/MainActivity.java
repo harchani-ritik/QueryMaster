@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView myText;
 
     private String mUsername;
+    private String mUseremail;
     private SearchView searchView;
     private Button submitQueryButton;
     private EditText queryEditText;
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (user != null) {
                     // User is signed in
                     updateUserDatabase(user);
-                    onSignedInInitialize(user.getDisplayName());
+                    onSignedInInitialize(user.getDisplayName(),user.getEmail());
                 } else {
                     // User is signed out
                     onSignedOutCleanup();
@@ -201,8 +202,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
     }
 
-    private void onSignedInInitialize(String username) {
+    private void onSignedInInitialize(String username,String Useremail) {
         mUsername = username;
+        mUseremail= Useremail;
         myText.setText("Welcome "+mUsername+" to QueryMaster!");
         attachDatabaseReadListener();
     }
@@ -304,6 +306,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
             case R.id.user_profile: {
                 Toast.makeText(this, " User Profile clicked", Toast.LENGTH_SHORT).show();
+                Intent myIntent = new Intent(MainActivity.this, UserProfile.class);
+                myIntent.putExtra("name",mUsername);
+                myIntent.putExtra("email",mUseremail);
+                startActivity(myIntent);
                 break;
             }
             case R.id.home: {

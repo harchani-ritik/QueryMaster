@@ -12,9 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".UserProfile"
+            android:label="Profile"
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity
             android:name=".AnsweringActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:label="Answer"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
