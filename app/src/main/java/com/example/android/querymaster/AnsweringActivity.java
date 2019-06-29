@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -92,7 +91,8 @@ public class AnsweringActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.post_menu:
                 if(!answerEditText.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Submitting Answer", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Submitting Answer", Toast.LENGTH_SHORT).show();
+
                     String answer = answerEditText.getText().toString();
                     answerEditText.setText("");
                     answerArrayList.add(answer);

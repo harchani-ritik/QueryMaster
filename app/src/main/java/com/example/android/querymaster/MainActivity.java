@@ -4,7 +4,9 @@ package com.example.android.querymaster;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DatabaseReference mMessagesDatabaseReference;
     private DatabaseReference mUserDatabaseReference;
     private ChildEventListener mChildEventListener;
-    private ArrayList<QueryObject> queryObjectArrayList=new ArrayList<>();
-    private ArrayList<User> userObjectArrayList=new ArrayList<>();
+    private ArrayList<QueryObject> queryObjectArrayList;
+    private ArrayList<User> userObjectArrayList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -60,11 +61,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private String mUsername;
     private String mUseremail;
-    private SearchView searchView;
     private Button submitQueryButton;
     private EditText queryEditText;
     private DrawerLayout mDrawerLayout;
-
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +78,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+        constraintLayout=findViewById(R.id.main_root_view);
         getIncomingIntent();
 
-        userObjectArrayList=new ArrayList<>();
         queryObjectArrayList = new ArrayList<>();
+        userObjectArrayList=new ArrayList<>();
         myText = findViewById(R.id.display_text_view);
         submitQueryButton = findViewById(R.id.submit_query_button);
         queryEditText = findViewById(R.id.query_edit_text);
         mUsername = ANONYMOUS;
         mFirebaseAuth = FirebaseAuth.getInstance();
 
+        queryEditText.setFocusable(false);
+        queryEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                queryEditText.setFocusableInTouchMode(true);
+            }
+        });
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("queries");
         mUserDatabaseReference=mFirebaseDatabase.getReference().child("users");
@@ -152,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this,"Query Submitted",Toast.LENGTH_SHORT).show();
                 String query=queryEditText.getText().toString();
-                QueryObject queryObject = new QueryObject(query);//New object created
+                QueryObject queryObject = new QueryObject(query);
                 Date currentTime = Calendar.getInstance().getTime();
                 queryObject.setmTime(currentTime.toString());
                 String key=mMessagesDatabaseReference.push().getKey();
@@ -162,9 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 queryEditText.setText("");
             }
         });
-
-        searchView = findViewById(R.id.query_search_bar);
-        //to implement searching here
     }
 
     @Override
@@ -189,10 +193,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemClick(int position, View v) {
                 Log.i("MainActivity", " Clicked on Item " + position);
-                String key=queryObjectArrayList.get(position).getmKey();
+                //Intent to Master Activity for showing list of answers of a Query
+                /*String key=queryObjectArrayList.get(position).getmKey();
                 Intent myIntent = new Intent(MainActivity.this, QueryListActivity.class);
                 myIntent.putExtra("ObjKey",key);
-                startActivity(myIntent);
+                startActivity(myIntent);*/
             }
         });
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
@@ -298,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ObjKey=getIntent().getStringExtra("objKey");
         }
         if(ObjPosition!=-1) {
+            Snackbar.make(constraintLayout,"Answer Submitted", Snackbar.LENGTH_SHORT).show();
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("queries");
             mMessagesDatabaseReference.child(ObjKey).child("mAnswers").setValue(answerArrayList);
@@ -308,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.user_profile: {
-                Toast.makeText(this, " User Profile clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, " User Profile clicked", Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(MainActivity.this, UserProfile.class);
                 myIntent.putExtra("name",mUsername);
                 myIntent.putExtra("email",mUseremail);

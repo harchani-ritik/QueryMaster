@@ -25,6 +25,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/main_root_view"
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/display_text_view"
@@ -33,36 +34,23 @@
                 android:layout_centerHorizontal="true"
                 android:text="Welcome to QueryMaster!"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/query_search_bar"
+                app:layout_constraintBottom_toTopOf="@+id/query_edit_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <SearchView
-                android:id="@+id/query_search_bar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/display_text_view"
-                android:queryBackground="@color/tan_background"
-                android:queryHint="Search Query"
-                app:layout_constraintBottom_toTopOf="@+id/query_edit_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/display_text_view" />
-
             <EditText
                 android:id="@+id/query_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/query_search_bar"
                 android:hint="Ask your Query Here"
                 android:paddingHorizontal="8dp"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/query_search_bar" />
+                app:layout_constraintTop_toBottomOf="@+id/display_text_view" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view"
@@ -77,17 +65,15 @@
             <Button
                 android:id="@+id/submit_query_button"
                 android:layout_width="80dp"
-                android:layout_height="35dp"
-                android:layout_below="@id/query_edit_text"
+                android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/colorTheme"
                 android:enabled="false"
                 android:text="Submit"
                 android:textColor="@color/colorTitle"
-                app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
-                app:layout_constraintEnd_toEndOf="@+id/query_search_bar"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/query_edit_text"
+                app:layout_constraintTop_toBottomOf="@+id/display_text_view" />
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
