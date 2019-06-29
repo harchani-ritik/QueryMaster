@@ -51,9 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DatabaseReference mMessagesDatabaseReference;
     private DatabaseReference mUserDatabaseReference;
     private ChildEventListener mChildEventListener;
-    private ArrayList<QueryObject> queryObjectArrayList;
+    private ArrayList<QueryObject> queryObjectArrayList=new ArrayList<>();
     private ArrayList<User> userObjectArrayList=new ArrayList<>();
-
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -190,6 +189,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemClick(int position, View v) {
                 Log.i("MainActivity", " Clicked on Item " + position);
+                String key=queryObjectArrayList.get(position).getmKey();
+                Intent myIntent = new Intent(MainActivity.this, QueryListActivity.class);
+                myIntent.putExtra("ObjKey",key);
+                startActivity(myIntent);
             }
         });
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);

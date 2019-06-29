@@ -12,10 +12,28 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserProfile"
-            android:label="Profile"
-            android:parentActivityName=".MainActivity">
+        <activity
+            android:name=".QueryListActivity"
+            android:label="@string/title_query_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.querymaster.MainActivity" />
         </activity>
+        <activity
+            android:name=".QueryDetailActivity"
+            android:label="@string/title_query_detail"
+            android:parentActivityName=".QueryListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.querymaster.QueryListActivity" />
+        </activity>
+        <activity
+            android:name=".UserProfile"
+            android:label="Profile"
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".AnsweringActivity"
             android:label="Answer"
