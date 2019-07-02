@@ -193,11 +193,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemClick(int position, View v) {
                 Log.i("MainActivity", " Clicked on Item " + position);
-                //Intent to Master Activity for showing list of answers of a Query
-                /*String key=queryObjectArrayList.get(position).getmKey();
-                Intent myIntent = new Intent(MainActivity.this, QueryListActivity.class);
-                myIntent.putExtra("ObjKey",key);
-                startActivity(myIntent);*/
             }
         });
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
@@ -244,7 +239,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void attachDatabaseReadListener() {
         Toast.makeText(MainActivity.this, "Loading Queries", Toast.LENGTH_SHORT).show();
-
 
         if (mChildEventListener == null) {
             mChildEventListener = new ChildEventListener() {
