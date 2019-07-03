@@ -24,58 +24,67 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:id="@+id/main_root_view"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/display_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Welcome to QueryMaster!"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/query_edit_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/display_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Welcome to QueryMaster!"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/query_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-            <EditText
-                android:id="@+id/query_edit_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Ask your Query Here"
-                android:paddingHorizontal="8dp"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/display_text_view" />
+    <EditText
+        android:id="@+id/query_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:hint="Ask your Query Here"
+        android:paddingHorizontal="8dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/submit_query_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/display_text_view" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/my_recycler_view"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scrollbars="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submit_query_button" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/query_edit_text" />
 
-            <Button
-                android:id="@+id/submit_query_button"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
-                android:background="@color/colorTheme"
-                android:enabled="false"
-                android:text="Submit"
-                android:textColor="@color/colorTitle"
-                app:layout_constraintEnd_toEndOf="@+id/query_edit_text"
-                app:layout_constraintTop_toBottomOf="@+id/display_text_view" />
+    <Button
+        android:id="@+id/submit_query_button"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorTheme"
+        android:enabled="false"
+        android:text="Submit"
+        android:textColor="@color/colorTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/query_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/query_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/query_edit_text" />
 
-        </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
     </LinearLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
