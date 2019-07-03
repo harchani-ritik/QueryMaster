@@ -13,7 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AnsweringActivity extends AppCompatActivity {
 
@@ -22,10 +23,11 @@ public class AnsweringActivity extends AppCompatActivity {
     public static final String TAG="AnsweringActivity";
     private TextView questionTextView;
     private TextView answerEditText;
-    private ArrayList<String> answerArrayList;
+    private String mAnswer;
     private String questionName;
-    private int ObjPosition;
+    private String mTime;
     private String ObjKey;
+    private Boolean isObjectAdded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,19 +66,17 @@ public class AnsweringActivity extends AppCompatActivity {
 
     private void getIncomingIntent()
     {
-        if(getIntent().hasExtra("question")&&getIntent().hasExtra("answersList")&&getIntent().hasExtra("objPosition"));
-        {
             questionName=getIntent().getStringExtra("question");
-            answerArrayList=getIntent().getStringArrayListExtra("answersList");
-            ObjPosition=getIntent().getIntExtra("objPosition",-1);
-            ObjKey=getIntent().getStringExtra("objKey");
-            setQuestionName();
-        }
-    }
+            questionTextView.setText(questionName);
 
-    private void setQuestionName()
-    {
-        questionTextView.setText(questionName);
+            mTime=getIntent().getStringExtra("queryTime");
+            if(getIntent().hasExtra("objKey"))
+            {
+                isObjectAdded=true;
+                ObjKey=getIntent().getStringExtra("objKey");
+            }
+            else
+                isObjectAdded=false;
     }
 
     @Override
@@ -93,19 +93,34 @@ public class AnsweringActivity extends AppCompatActivity {
                 if(!answerEditText.getText().toString().equals("")) {
                     //Toast.makeText(getApplicationContext(), "Submitting Answer", Toast.LENGTH_SHORT).show();
 
-                    String answer = answerEditText.getText().toString();
+                    mAnswer = answerEditText.getText().toString();
                     answerEditText.setText("");
-                    answerArrayList.add(answer);
-                    //Now this answer has to be added to ArrayList of Answers of that particular query
+                    sendAnswerToDatabase();
                     Intent myIntent = new Intent(this, MainActivity.class);
-                    myIntent.putExtra("objPosition", ObjPosition);
-                    myIntent.putStringArrayListExtra("answersList", answerArrayList);
-                    myIntent.putExtra("objKey", ObjKey);
                     startActivity(myIntent);
                     return true;
                 }
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    public void sendAnswerToDatabase()
+    {
+        FirebaseDatabase mFirebaseDatabase=FirebaseDatabase.getInstance();
+        DatabaseReference mMessagesDatabaseReference=mFirebaseDatabase.getReference().child("queries");
+        if(isObjectAdded)
+        {
+            mMessagesDatabaseReference.child(ObjKey).child("mAnswer").setValue(mAnswer);
+        }
+        else
+        {
+            QueryObject queryObject = new QueryObject(questionName);
+            queryObject.setmTime(mTime);
+            queryObject.setmAnswer(mAnswer);
+            String key=mMessagesDatabaseReference.push().getKey();
+            queryObject.setmKey(key);
+            if(key!=null)
+                mMessagesDatabaseReference.child(key).setValue(queryObject);
         }
     }
 

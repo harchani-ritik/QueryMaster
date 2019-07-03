@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessagesDatabaseReference;
     private DatabaseReference mUserDatabaseReference;
     private ChildEventListener mChildEventListener;
@@ -56,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<User> userObjectArrayList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private TextView myText;
 
     private String mUsername;
@@ -75,11 +72,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationview = findViewById(R.id.nav_view);
         navigationview.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         constraintLayout=findViewById(R.id.main_root_view);
-        getIncomingIntent();
+
 
         queryObjectArrayList = new ArrayList<>();
         userObjectArrayList=new ArrayList<>();
@@ -96,9 +94,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 queryEditText.setFocusableInTouchMode(true);
             }
         });
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
         mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("queries");
-        mUserDatabaseReference=mFirebaseDatabase.getReference().child("users");
+        mUserDatabaseReference= mFirebaseDatabase.getReference().child("users");
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         mRecyclerView = findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new MyRecyclerViewAdapter(queryObjectArrayList);
@@ -148,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -208,7 +205,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void onSignedInInitialize(String username,String Useremail) {
         mUsername = username;
         mUseremail= Useremail;
-        myText.setText("Welcome "+mUsername+" to QueryMaster!");
+        String WelcomeText="Welcome ".concat(mUsername).concat(" to QueryMaster");
+        myText.setText(WelcomeText);
         attachDatabaseReadListener();
     }
 
@@ -286,24 +284,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
-
-    public void getIncomingIntent() {
-        int ObjPosition;String ObjKey;
-        ArrayList<String> answerArrayList;
-        if (getIntent().hasExtra("objPosition") && getIntent().hasExtra("answersList") && getIntent().hasExtra("objKey")) ;
-        {
-            answerArrayList=getIntent().getStringArrayListExtra("answersList");
-            ObjPosition=getIntent().getIntExtra("objPosition",-1);
-            ObjKey=getIntent().getStringExtra("objKey");
-        }
-        if(ObjPosition!=-1) {
-            Snackbar.make(constraintLayout,"Answer Submitted", Snackbar.LENGTH_SHORT).show();
-            mFirebaseDatabase = FirebaseDatabase.getInstance();
-            mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("queries");
-            mMessagesDatabaseReference.child(ObjKey).child("mAnswers").setValue(answerArrayList);
-        }
-    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
