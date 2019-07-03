@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+
 public class AnsweringActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -106,17 +108,23 @@ public class AnsweringActivity extends AppCompatActivity {
     }
     public void sendAnswerToDatabase()
     {
+        String time= Calendar.getInstance().getTime().toString().split("G")[0];
+        String username = MainActivity.getmUsername();
         FirebaseDatabase mFirebaseDatabase=FirebaseDatabase.getInstance();
         DatabaseReference mMessagesDatabaseReference=mFirebaseDatabase.getReference().child("queries");
         if(isObjectAdded)
         {
+            mMessagesDatabaseReference.child(ObjKey).child("mAnswerTime").setValue(time);
             mMessagesDatabaseReference.child(ObjKey).child("mAnswer").setValue(mAnswer);
+            mMessagesDatabaseReference.child(ObjKey).child("mName").setValue(username);
         }
         else
         {
             QueryObject queryObject = new QueryObject(questionName);
             queryObject.setmTime(mTime);
             queryObject.setmAnswer(mAnswer);
+            queryObject.setmAnswerTime(time);
+            queryObject.setmName(username);
             String key=mMessagesDatabaseReference.push().getKey();
             queryObject.setmKey(key);
             if(key!=null)

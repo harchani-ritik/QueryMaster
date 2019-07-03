@@ -7,6 +7,7 @@ public class QueryObject {
     private String mAnswer;
     private String mTime;//time of Query Asked
     private String mName;
+    private String mAnswerTime;//time when Query was Answered
 
     public QueryObject() {//default constructor required for firebase
     }
@@ -28,7 +29,13 @@ public class QueryObject {
         return mKey;
     }
 
+    public String getmName() {
+        return mName;
+    }
 
+    public String getmAnswerTime() {
+        return mAnswerTime;
+    }
 
     public String getmTime() {
         return mTime;
@@ -44,5 +51,13 @@ public class QueryObject {
 
     public void setmAnswer(String mAnswer) {
         this.mAnswer = mAnswer;
+    }
+
+    public void setmName(String mName) {
+        this.mName = mName;
+    }
+
+    public void setmAnswerTime(String mAnswerTime) {
+        this.mAnswerTime = mAnswerTime;
     }
 }

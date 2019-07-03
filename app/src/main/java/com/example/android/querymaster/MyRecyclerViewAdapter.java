@@ -1,6 +1,7 @@
 package com.example.android.querymaster;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
         TextView answerlabel;
         TextView answerQuery;
         TextView timelabel;
-
+        TextView name;
 
         public QueryObjectHolder(View itemView) {
             super(itemView);
@@ -31,6 +32,7 @@ import java.util.ArrayList;
             answerlabel = (TextView) itemView.findViewById(R.id.textView2);
             answerQuery=(TextView)itemView.findViewById(R.id.answer_query);
             timelabel=itemView.findViewById(R.id.textView4);
+            name = (TextView) itemView.findViewById(R.id.textView5);
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }
@@ -61,12 +63,17 @@ import java.util.ArrayList;
     public void onBindViewHolder(QueryObjectHolder holder, final int position) {
 
         holder.query.setText(queryObjectArrayList.get(position).getmQuery());
-        final String query_answer=queryObjectArrayList.get(position).getmAnswer();
 
-        if(query_answer!=null)
+        final String query_answer=queryObjectArrayList.get(position).getmAnswer();
+        if(query_answer!=null){
             holder.answerlabel.setText(query_answer);
-        else
+            holder.name.setText(queryObjectArrayList.get(position).getmName());
+        }
+        else {
             holder.answerlabel.setText("No Answer on this Query Till Now!");
+            holder.answerlabel.setTypeface(null, Typeface.ITALIC);
+            holder.name.setVisibility(View.INVISIBLE);
+        }
 
         holder.timelabel.setText(queryObjectArrayList.get(position).getmTime());
         holder.answerQuery.setOnClickListener(new View.OnClickListener() {

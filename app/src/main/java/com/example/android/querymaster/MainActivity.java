@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static final String ANONYMOUS = "Anonymous";
     public static final int RC_SIGN_IN = 1;
-    public boolean EXPERT_LOGIN;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView.Adapter mAdapter;
     private TextView myText;
 
-    private String mUsername;
+    private static String mUsername;
     private String mUseremail;
     private Button submitQueryButton;
     private EditText queryEditText;
@@ -158,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String query=queryEditText.getText().toString();
                 QueryObject queryObject = new QueryObject(query);
                 Date currentTime = Calendar.getInstance().getTime();
-                queryObject.setmTime(currentTime.toString());
+                queryObject.setmTime(currentTime.toString().split("G")[0]);
                 String key=mMessagesDatabaseReference.push().getKey();
                 queryObject.setmKey(key);
                 if(key!=null)
@@ -316,5 +315,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
     }
 
+    public static String getmUsername() {
+        return mUsername;
+    }
 }
 
