@@ -1,16 +1,13 @@
 package com.example.android.querymaster;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +45,7 @@ public class AnsweringActivity extends AppCompatActivity {
             }
         });*/
     }
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
@@ -57,7 +54,7 @@ public class AnsweringActivity extends AppCompatActivity {
             answerImageView.setVisibility(View.VISIBLE);
             answerImageView.setImageBitmap(imageBitmap);
         }
-    }
+    }*/
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

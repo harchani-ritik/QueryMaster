@@ -12,10 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".AnswerDetailsActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity
             android:name=".UserProfile"
             android:label="Profile"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AnsweringActivity"
             android:label="Answer"

@@ -182,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -189,6 +190,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemClick(int position, View v) {
                 Log.i("MainActivity", " Clicked on Item " + position);
+                if(queryObjectArrayList.get(position).getmAnswer()!=null) {
+                    Intent intent = new Intent(MainActivity.this, AnswerDetailsActivity.class);
+                    intent.putExtra("query",queryObjectArrayList.get(position).getmQuery());
+                    intent.putExtra("answer",queryObjectArrayList.get(position).getmAnswer());
+                    intent.putExtra("time",queryObjectArrayList.get(position).getmAnswerTime());
+                    intent.putExtra("name",queryObjectArrayList.get(position).getmName());
+                    startActivity(intent);
+                }
             }
         });
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
