@@ -71,7 +71,6 @@
         android:id="@+id/textView7"
         android:layout_width="84dp"
         android:layout_height="26dp"
-        android:layout_marginStart="144dp"
         android:layout_marginTop="568dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="20dp"
@@ -80,7 +79,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/email_text_view" />

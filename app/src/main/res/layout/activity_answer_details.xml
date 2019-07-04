@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:paddingLeft="4dp"
+        android:paddingLeft="8dp"
         android:text="Why is activity_answer_details named so?"
         android:textColor="@color/colorTheme"
         android:textSize="20sp"
