@@ -1,7 +1,11 @@
 package com.example.android.querymaster;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +17,8 @@ public class AnswerDetailsActivity extends AppCompatActivity {
     private String answer;
     private String name;
     private String time;
+    private String qTime;
+    private String objKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +62,31 @@ public class AnswerDetailsActivity extends AppCompatActivity {
         name=getIntent().getStringExtra("name");
         time=getIntent().getStringExtra("time");
         answer=getIntent().getStringExtra("answer");
+        qTime=getIntent().getStringExtra("qTime");
+        objKey=getIntent().getStringExtra("objKey");
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Use to inflate the SignOut Options menu
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu3, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.bookmark_menu:
+                QueryObject queryObject = new QueryObject(query);
+                queryObject.setmName(name);
+                queryObject.setmAnswerTime(time);
+                queryObject.setmAnswer(answer);
+                queryObject.setmTime(qTime);
+                queryObject.setmKey(objKey);
+                MainActivity.setBookmark(queryObject);
+                Snackbar.make(findViewById(R.id.AnswerDetailView),
+                        "Saved Answer",Snackbar.LENGTH_SHORT).show();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

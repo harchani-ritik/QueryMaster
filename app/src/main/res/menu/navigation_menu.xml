@@ -9,9 +9,9 @@
             android:icon="@drawable/common_google_signin_btn_icon_light"
             android:title="User Profile" />
         <item
-            android:id="@+id/home"
+            android:id="@+id/bookmark"
             android:icon="@drawable/common_google_signin_btn_icon_light"
-            android:title="Home" />
+            android:title="Bookmarked" />
     </group>
     <item android:title="Communicate">
         <menu>

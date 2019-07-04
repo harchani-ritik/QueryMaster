@@ -4,8 +4,8 @@ package com.example.android.querymaster;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DatabaseReference mUserDatabaseReference;
     private ChildEventListener mChildEventListener;
     private ArrayList<QueryObject> queryObjectArrayList;
+    private static ArrayList<QueryObject> bookMarkObjectArrayList=new ArrayList<>();;
     private ArrayList<User> userObjectArrayList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Button submitQueryButton;
     private EditText queryEditText;
     private DrawerLayout mDrawerLayout;
-    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +75,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        constraintLayout=findViewById(R.id.main_root_view);
-
+        if(getIntent().hasExtra("showSnackBar"))
+            Snackbar.make(findViewById(R.id.main_root_view),
+                    "Answer Submitted",Snackbar.LENGTH_SHORT).show();
 
         queryObjectArrayList = new ArrayList<>();
         userObjectArrayList=new ArrayList<>();
@@ -196,6 +197,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     intent.putExtra("answer",queryObjectArrayList.get(position).getmAnswer());
                     intent.putExtra("time",queryObjectArrayList.get(position).getmAnswerTime());
                     intent.putExtra("name",queryObjectArrayList.get(position).getmName());
+                    intent.putExtra("qTime",queryObjectArrayList.get(position).getmTime());
+                    intent.putExtra("objKey",queryObjectArrayList.get(position).getmKey());
                     startActivity(intent);
                 }
             }
@@ -303,8 +306,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(myIntent);
                 break;
             }
-            case R.id.home: {
-                Toast.makeText(this, " Home clicked", Toast.LENGTH_SHORT).show();
+            case R.id.bookmark: {
+                Toast.makeText(this, "Number of Answers Bookmarked = "+bookMarkObjectArrayList.size(),
+                        Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.Suggestions: {
@@ -326,6 +330,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static String getmUsername() {
         return mUsername;
+    }
+
+    public static void setBookmark(QueryObject queryObject )
+    {
+        bookMarkObjectArrayList.add(queryObject);
     }
 }
 
