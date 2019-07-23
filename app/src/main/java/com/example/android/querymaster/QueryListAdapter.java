@@ -12,8 +12,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 //MyRecyclerView Adapter is a custom adapter for QueryObjects
-    public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.QueryObjectHolder> {
-    private static String LOG_TAG = "MyRecyclerViewAdapter";
+    public class QueryListAdapter extends RecyclerView.Adapter<QueryListAdapter.QueryObjectHolder> {
+    private static String LOG_TAG = "QueryListAdapter";
     private ArrayList<QueryObject> queryObjectArrayList;
     private static MyClickListener myClickListener;
 
@@ -48,7 +48,7 @@ import java.util.ArrayList;
     }
 
 
-    public MyRecyclerViewAdapter(ArrayList<QueryObject> myDataset) {
+    public QueryListAdapter(ArrayList<QueryObject> myDataset) {
         queryObjectArrayList = myDataset;
     }
 

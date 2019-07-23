@@ -39,7 +39,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class QueryListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String ANONYMOUS = "Anonymous";
     public static final int RC_SIGN_IN = 1;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_query_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MyRecyclerViewAdapter(queryObjectArrayList);
+        mAdapter = new QueryListAdapter(queryObjectArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
         queryEditText.addTextChangedListener(new TextWatcher() {
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         submitQueryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"Query Submitted",Toast.LENGTH_SHORT).show();
+                Toast.makeText(QueryListActivity.this,"Query Submitted",Toast.LENGTH_SHORT).show();
                 String query=queryEditText.getText().toString();
                 QueryObject queryObject = new QueryObject(query);
                 Date currentTime = Calendar.getInstance().getTime();
@@ -187,18 +187,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter.MyClickListener() {
+        ((QueryListAdapter) mAdapter).setOnItemClickListener(new QueryListAdapter.MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Log.i("MainActivity", " Clicked on Item " + position);
+                Log.i("QueryListActivity", " Clicked on Item " + position);
                 if(queryObjectArrayList.get(position).getmAnswer()!=null) {
-                    Intent intent = new Intent(MainActivity.this, AnswerDetailsActivity.class);
-                    intent.putExtra("query",queryObjectArrayList.get(position).getmQuery());
-                    intent.putExtra("answer",queryObjectArrayList.get(position).getmAnswer());
-                    intent.putExtra("time",queryObjectArrayList.get(position).getmAnswerTime());
-                    intent.putExtra("name",queryObjectArrayList.get(position).getmName());
-                    intent.putExtra("qTime",queryObjectArrayList.get(position).getmTime());
-                    intent.putExtra("objKey",queryObjectArrayList.get(position).getmKey());
+                    AnswerDetailsActivity.setMQuery(queryObjectArrayList.get(position));
+                    Intent intent = new Intent(QueryListActivity.this, AnswerDetailsActivity.class);
                     startActivity(intent);
                 }
             }
@@ -247,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void attachDatabaseReadListener() {
-        Toast.makeText(MainActivity.this, "Loading Queries", Toast.LENGTH_SHORT).show();
+        Toast.makeText(QueryListActivity.this, "Loading Queries", Toast.LENGTH_SHORT).show();
 
         if (mChildEventListener == null) {
             mChildEventListener = new ChildEventListener() {
@@ -255,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     QueryObject queryObject = dataSnapshot.getValue(QueryObject.class);
                     queryObjectArrayList.add(queryObject);
-                    mAdapter = new MyRecyclerViewAdapter(queryObjectArrayList);
+                    mAdapter = new QueryListAdapter(queryObjectArrayList);
                     mRecyclerView.setAdapter(mAdapter);
                 }
 
@@ -300,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
             case R.id.user_profile: {
                 //Toast.makeText(this, " User Profile clicked", Toast.LENGTH_SHORT).show();
-                Intent myIntent = new Intent(MainActivity.this, UserProfile.class);
+                Intent myIntent = new Intent(QueryListActivity.this, UserProfile.class);
                 myIntent.putExtra("name",mUsername);
                 myIntent.putExtra("email",mUseremail);
                 startActivity(myIntent);
@@ -335,6 +330,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static void setBookmark(QueryObject queryObject )
     {
         bookMarkObjectArrayList.add(queryObject);
+    }
+    public static boolean searchInBookMarkList(QueryObject queryObject)
+    {
+        for(int i=0;i<bookMarkObjectArrayList.size();i++)
+        {
+            if(bookMarkObjectArrayList.get(i).getmKey().equals(queryObject.getmKey()))
+                return true;
+        }
+        return false;
     }
 }
 

@@ -13,18 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AnswerDetailsActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".QueryListActivity">
         </activity>
         <activity
             android:name=".UserProfile"
             android:label="Profile"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".QueryListActivity" />
         <activity
             android:name=".AnsweringActivity"
             android:label="Answer"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".QueryListActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".QueryListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

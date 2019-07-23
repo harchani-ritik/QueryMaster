@@ -38,7 +38,6 @@ public class AnsweringActivity extends AppCompatActivity {
     {
             questionName=getIntent().getStringExtra("question");
             questionTextView.setText(questionName);
-
             mTime=getIntent().getStringExtra("queryTime");
             if(getIntent().hasExtra("objKey"))
             {
@@ -50,33 +49,35 @@ public class AnsweringActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.sign_out_menu).setTitle("POST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return super.onPrepareOptionsMenu(menu);
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //Use to inflate the SignOut Options menu
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu2, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.post_menu:
-                if(!answerEditText.getText().toString().equals("")) {
-                    mAnswer = answerEditText.getText().toString();
-                    answerEditText.setText("");
-                    sendAnswerToDatabase();
-                    Intent myIntent = new Intent(this, MainActivity.class);
-                    myIntent.putExtra("showSnackBar",true);
-                    startActivity(myIntent);
-                    return true;
-                }
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.sign_out_menu) {
+            if (!answerEditText.getText().toString().equals("")) {
+                mAnswer = answerEditText.getText().toString();
+                answerEditText.setText("");
+                sendAnswerToDatabase();
+                Intent myIntent = new Intent(this, QueryListActivity.class);
+                myIntent.putExtra("showSnackBar", true);
+                startActivity(myIntent);
+                return true;
+            }
         }
+        return super.onOptionsItemSelected(item);
     }
     public void sendAnswerToDatabase()
     {
         String time= Calendar.getInstance().getTime().toString().split("G")[0];
-        String username = MainActivity.getmUsername();
+        String username = QueryListActivity.getmUsername();
         FirebaseDatabase mFirebaseDatabase=FirebaseDatabase.getInstance();
         DatabaseReference mMessagesDatabaseReference=mFirebaseDatabase.getReference().child("queries");
         if(isObjectAdded)

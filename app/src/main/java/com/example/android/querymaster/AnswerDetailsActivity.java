@@ -13,18 +13,13 @@ import android.widget.Toast;
 
 public class AnswerDetailsActivity extends AppCompatActivity {
 
-    private String query;
-    private String answer;
-    private String name;
-    private String time;
-    private String qTime;
-    private String objKey;
+    private static QueryObject mQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_details);
-        getIncomingIntent();
+
         TextView query1 = findViewById(R.id.QueryName);
         TextView name1 = findViewById(R.id.UserName);
         TextView time1 = findViewById(R.id.AnswerTime);
@@ -33,10 +28,10 @@ public class AnswerDetailsActivity extends AppCompatActivity {
         Button tagButton=findViewById(R.id.TagButton);
         Button shareButton=findViewById(R.id.ShareButton);
 
-        query1.setText(query);
-        name1.setText(name);
-        time1.setText(time);
-        answer1.setText(answer);
+        query1.setText(mQuery.getmQuery());
+        name1.setText(mQuery.getmName());
+        time1.setText(mQuery.getmTime());
+        answer1.setText(mQuery.getmAnswer());
         upvoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,37 +51,34 @@ public class AnswerDetailsActivity extends AppCompatActivity {
             }
         });
     }
-    public void getIncomingIntent()
-    {
-        query=getIntent().getStringExtra("query");
-        name=getIntent().getStringExtra("name");
-        time=getIntent().getStringExtra("time");
-        answer=getIntent().getStringExtra("answer");
-        qTime=getIntent().getStringExtra("qTime");
-        objKey=getIntent().getStringExtra("objKey");
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.sign_out_menu).setTitle("BOOKMARK").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return super.onPrepareOptionsMenu(menu);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //Use to inflate the SignOut Options menu
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu3, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.bookmark_menu:
-                QueryObject queryObject = new QueryObject(query);
-                queryObject.setmName(name);
-                queryObject.setmAnswerTime(time);
-                queryObject.setmAnswer(answer);
-                queryObject.setmTime(qTime);
-                queryObject.setmKey(objKey);
-                MainActivity.setBookmark(queryObject);
+        if (item.getItemId() == R.id.sign_out_menu) {
+            if (QueryListActivity.searchInBookMarkList(mQuery)) {
                 Snackbar.make(findViewById(R.id.AnswerDetailView),
-                        "Saved Answer",Snackbar.LENGTH_SHORT).show();
-            default:
-                return super.onOptionsItemSelected(item);
+                        "Already Saved", Snackbar.LENGTH_SHORT).show();
+            } else {
+                QueryListActivity.setBookmark(mQuery);
+                Snackbar.make(findViewById(R.id.AnswerDetailView),
+                        "Saved Answer", Snackbar.LENGTH_SHORT).show();
+            }
         }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static void setMQuery(QueryObject query)
+    {
+        mQuery=query;
     }
 }
